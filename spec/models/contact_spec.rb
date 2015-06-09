@@ -38,9 +38,9 @@ RSpec.describe Contact, type: :model do
 
   describe 'filter letter by lastname' do
     before :each do
-      @smith=Contact.create(firstname: 'Smith', lastname: 'Jone', email: 'jone@example.com')
-      @jack=Contact.create(firstname: 'Jack', lastname: 'Tim', email: 'tim@example.com')
-      @jason=Contact.create(firstname: 'Sam', lastname: 'Jason', email: 'jason@example.com')
+      @smith=create(:contact,firstname: 'Smith', lastname: 'Jone', email: 'jone@example.com')
+      @jack=create(:contact,firstname: 'Jack', lastname: 'Tim', email: 'tim@example.com')
+      @jason=create(:contact,firstname: 'Sam', lastname: 'Jason', email: 'jason@example.com')
     end
     context 'matching letter' do
       it 'returns a sorted array of result that match' do
@@ -52,6 +52,10 @@ RSpec.describe Contact, type: :model do
         expect(Contact.by_letter('J')).to_not include @jack
       end
     end
+  end
+
+  it "has three phone numbers" do
+    expect(create(:contact).phones.count).to eq 3
   end
 
 end
