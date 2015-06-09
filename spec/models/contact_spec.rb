@@ -3,27 +3,36 @@ require 'rails_helper'
 
 RSpec.describe Contact, type: :model do
 
-  it "is valid with firstname, lastname, email and 3 phones" do
-    contact=Contact.new(firstname: 'Tim', lastname: 'Macor', email: 'tim@gmail.com')
-    expect(contact).to be_valid
+  describe Contact do
+    it "create valid contact from factory" do
+      expect(build(:contact)).to be_valid
+    end
   end
+
   it "is invalid without firstname" do
-    contact=Contact.create(firstname: nil)
+    contact=build(:contact,firstname:nil)
+    contact.save
     expect(contact.errors).to have_key(:firstname)
   end
   it "is invalid without lastname" do
-    contact=Contact.create(lastname: nil)
+    contact=build(:contact,lastname:nil)
+    contact.save
     expect(contact.errors).to have_key(:lastname)
   end
   it "is invalid without email" do
-    contact=Contact.create(email: nil)
+    contact=build(:contact,email:nil)
+    contact.save
     expect(contact.errors).to have_key(:email)
   end
   it "is invalid with duplicate email address" do
-
+    create(:contact,email:"1@example.com")
+    contact=build(:contact,email:"1@example.com")
+    contact.save
+    expect(contact.errors).to have_key(:email)
   end
   it "returns a cotact's full name as a string" do
-    contact=Contact.new(firstname: 'Tim', lastname: 'Macro', email: '123@gmail.com')
+    contact=build(:contact,firstname:"Tim",lastname:"Macro")
+    contact.save
     expect(contact.name).to eq 'Tim Macro'
   end
 
